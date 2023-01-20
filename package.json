@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "wechat robot with chatgpt",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "chatgpt": "node src/index.js",
     "lint": "eslint 'src/*.js' --quiet --fix"

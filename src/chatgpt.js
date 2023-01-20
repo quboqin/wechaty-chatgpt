@@ -1,7 +1,9 @@
 import { Configuration, OpenAIApi } from 'openai'
+import { config as dotenv } from 'dotenv'
+dotenv({ path: `.env` })
 
-import { sendImage, sendText } from './index'
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint'
+import { sendImage, sendText } from './index.js'
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,

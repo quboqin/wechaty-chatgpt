@@ -1,11 +1,13 @@
 import { FileBox } from 'file-box'
 import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
-dotenv.config({ path: `.env` })
+dotenv({ path: `.env` })
 
 import { WechatyBuilder } from 'wechaty'
-import { chatgptReplyText, chatgptReplayImage } from './chatgpt'
-import { flagStudioReplayImage } from './flagstudio'
+import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
+import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
+
+await getFlagStudioToken()
 
 const wechaty = WechatyBuilder.build({
   name: 'wechaty-chatgpt',

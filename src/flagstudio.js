@@ -1,7 +1,9 @@
 import axios from 'axios'
+import { config as dotenv } from 'dotenv'
+dotenv({ path: `.env` })
 
-import { sendImage, sendText } from './index'
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint'
+import { sendImage, sendText } from './index.js'
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
 
 const instance = axios.create({
   baseURL: 'https://flagopen.baai.ac.cn/flagStudio',
@@ -9,15 +11,19 @@ const instance = axios.create({
   headers: { Accept: 'application/json' },
 })
 
-const flag_Studio_token = (
-  await instance.get('/auth/getToken', {
-    params: {
-      apikey: process.env.FLAG_STUDIO_KEY,
-    },
-  })
-).data.data.token
+export let flag_Studio_token
 
-console.log(`flag_Studio_token = ${flag_Studio_token}`)
+export async function getFlagStudioToken() {
+  flag_Studio_token = (
+    await instance.get('/auth/getToken', {
+      params: {
+        apikey: process.env.FLAG_STUDIO_KEY,
+      },
+    })
+  ).data.data.token
+
+  console.log(`flag_Studio_token = ${flag_Studio_token}`)
+}
 
 export async function flagStudioReplayImage(room, contact, prompt, style) {
   const target = room || contact
