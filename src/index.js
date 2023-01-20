@@ -1,0 +1,137 @@
+import { FileBox } from 'file-box'
+import qrcodeTerminal from 'qrcode-terminal'
+import { config as dotenv } from 'dotenv'
+dotenv.config({ path: `.env` })
+
+import { WechatyBuilder } from 'wechaty'
+import { chatgptReplyText, chatgptReplayImage } from './chatgpt'
+import { flagStudioReplayImage } from './flagstudio'
+
+const wechaty = WechatyBuilder.build({
+  name: 'wechaty-chatgpt',
+  puppet: 'wechaty-puppet-padlocal',
+  puppetOptions: {
+    token: process.env.PADLOCAL_TOKEN,
+    timeoutSeconds: 1800,
+  },
+})
+
+wechaty
+  // eslint-disable-next-line no-unused-vars
+  .on('scan', async (qrcode, status) => {
+    qrcodeTerminal.generate(qrcode)
+    const qrcodeImageUrl = ['https://api.qrserver.com/v1/create-qr-code/?data=', encodeURIComponent(qrcode)].join('')
+    console.log(qrcodeImageUrl)
+  })
+  .on('login', (user) => console.log(`User ${user} logged in`))
+  .on('logout', (user) => console.log(`User ${user} has logged out`))
+  .on('room-invite', async (roomInvitation) => {
+    try {
+      console.log(`received room-invite event.`)
+      await roomInvitation.accept()
+    } catch (e) {
+      console.error(e)
+    }
+  })
+  .on('room-join', async (room, inviteeList, inviter) => {
+    console.log(`received ${inviter} ${room} room-join event `)
+  })
+  .on('friendship', async (friendship) => {
+    console.log(`received friend event from ${friendship.contact().name()}, messageType: ${friendship.type()}`)
+  })
+  .on('message', async (message) => {
+    const contact = message.talker()
+    const receiver = message.listener()
+    let content = message.text()
+    const room = message.room()
+    const isText = message.type() === wechaty.Message.Type.Text
+    if (!isText) {
+      return
+    }
+    if (room) {
+      const topic = await room.topic()
+      if (await message.mentionSelf()) {
+        let receiverName = ''
+        if (receiver) {
+          const alias = await room.alias(receiver)
+          receiverName = alias || receiver.name()
+        }
+        const groupContent = content.replace(`@${receiverName}`, '')
+        console.log(`groupContent:${groupContent}`)
+        if (groupContent) {
+          content = groupContent.trim()
+          if (!content.startsWith('/c')) {
+            await chatgptReplyText(room, contact, content)
+          }
+        } else {
+          // just @, without content
+          console.log(`@ event emit. room name: ${topic} contact: ${contact} content: ${content}`)
+        }
+      }
+      console.log(`room name: ${topic} contact: ${contact} content: ${content}`)
+      command_reply(room, contact, content)
+    } else {
+      console.log(`contact: ${contact} content: ${content}`)
+      command_reply(null, contact, content)
+    }
+  })
+
+wechaty
+  .start()
+  .then(() => console.log('Start to log in wechat...'))
+  .catch((e) => console.error(e))
+
+const command_dictionary = {
+  ding: 'dong',
+  ping: 'pang',
+}
+
+async function command_reply(room, contact, content) {
+  content = content.trim()
+  // eslint-disable-next-line no-prototype-builtins
+  if (command_dictionary.hasOwnProperty(content.toLowerCase())) {
+    const target = room || contact
+    await sendText(target, command_dictionary[content])
+  }
+
+  if (content.startsWith('/c ')) {
+    const request = content.replace('/c ', '')
+    await chatgptReplyText(room, contact, request)
+  }
+
+  if (content.startsWith('/chatgpt ')) {
+    const request = content.replace('/chatgpt ', '')
+    await chatgptReplyText(room, contact, request)
+  }
+
+  if (content.startsWith('/i ')) {
+    const request = content.replace('/i ', '')
+    await chatgptReplayImage(room, contact, request)
+  }
+
+  if (content.startsWith('/f ')) {
+    const request = content.replace('/f ', '')
+    const messageArray = request.split(',')
+    const prompt = messageArray[0]
+    const style = messageArray[1]
+    await flagStudioReplayImage(room, contact, prompt, style)
+  }
+}
+
+export async function sendImage(contact, base64String, imageUrl) {
+  const fileBox = base64String ? FileBox.fromBase64(base64String, 'image.jpg') : FileBox.fromUrl(imageUrl)
+
+  try {
+    await contact.say(fileBox)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function sendText(contact, message) {
+  try {
+    await contact.say(message)
+  } catch (e) {
+    console.error(e)
+  }
+}

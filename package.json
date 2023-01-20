@@ -1,0 +1,30 @@
+{
+  "name": "wechaty-chatgpt",
+  "version": "1.0.0",
+  "description": "wechat robot with chatgpt",
+  "main": "index.js",
+  "scripts": {
+    "chatgpt": "node src/index.js",
+    "lint": "eslint 'src/*.js' --quiet --fix"
+  },
+  "keywords": [
+    "wechaty",
+    "chatgpt"
+  ],
+  "author": "qinqubo",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "axios": "^1.2.3",
+    "dotenv": "^16.0.3",
+    "openai": "^3.1.0",
+    "qrcode-terminal": "^0.12.0",
+    "wechaty": "^1.20.2",
+    "wechaty-puppet-padlocal": "^1.11.18"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.3"
+  }
+}
