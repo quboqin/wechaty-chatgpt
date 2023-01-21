@@ -1,0 +1,29 @@
+name: wechaty deployment
+
+on:
+  push:
+    branches: [ release ]
+
+env:
+  REPO_URL: https://github.com/quboqin/wechaty-chatgpt.git
+  REPO_BRANCH: release  
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: deploy using ssh
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        port: 22
+        script: |
+          pm2 stop chat
+          rm -rf wechaty-chatgpt
+          git clone $REPO_URL -b $REPO_BRANCH wechaty-chatgpt
+          cd wechaty-chatgpt
+          npm i
+          pm2 start src/index.js --name chat
