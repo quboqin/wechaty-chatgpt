@@ -7,9 +7,9 @@ on:
 env:
   REPO_URL: https://github.com/quboqin/wechaty-chatgpt.git
   REPO_BRANCH: release  
-  PADLOCAL_TOKEN: ${{ secret.PADLOCAL_TOKEN }}
-  OPENAI_API_KEY: ${{ secret.OPENAI_API_KEY }}
-  FLAG_STUDIO_KEY: ${{ secret.FLAG_STUDIO_KEY }}
+  PADLOCAL_TOKEN: ${{ secrets.PADLOCAL_TOKEN }}
+  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  FLAG_STUDIO_KEY: ${{ secrets.FLAG_STUDIO_KEY }}
 
 jobs:
   copy:
