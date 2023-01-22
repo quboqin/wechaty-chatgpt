@@ -25,5 +25,9 @@ jobs:
           rm -rf wechaty-chatgpt
           git clone $REPO_URL -b $REPO_BRANCH wechaty-chatgpt
           cd wechaty-chatgpt
+          touch .env
+          echo PADLOCAL_TOKEN=${{ secret.PADLOCAL_TOKEN }} >> .env
+          echo OPENAI_API_KEY=${{ secret.OPENAI_API_KEY }} >> .env
+          echo FLAG_STUDIO_KEY=${{ secret.FLAG_STUDIO_KEY }} >> .env
           npm i
           pm2 start src/index.js --name chat

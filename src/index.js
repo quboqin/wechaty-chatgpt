@@ -91,9 +91,10 @@ const command_dictionary = {
 async function command_reply(room, contact, content) {
   content = content.trim()
   // eslint-disable-next-line no-prototype-builtins
-  if (command_dictionary.hasOwnProperty(content.toLowerCase())) {
+  let lowCaseContent = content.toLowerCase()
+  if (command_dictionary.hasOwnProperty(lowCaseContent)) {
     const target = room || contact
-    await sendText(target, command_dictionary[content])
+    await sendText(target, command_dictionary[lowCaseContent])
   }
 
   if (content.startsWith('/c ')) {
