@@ -25,7 +25,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         script: |
-          pm2 stop chat
+          pm2 stop --silent chat
           rm -rf wechaty-chatgpt
           git clone $REPO_URL -b $REPO_BRANCH wechaty-chatgpt
           cd wechaty-chatgpt
