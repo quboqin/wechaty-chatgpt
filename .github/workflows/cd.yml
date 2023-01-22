@@ -24,10 +24,11 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
+        envs: REPO_URL,REPO_BRANCH,PADLOCAL_TOKEN,OPENAI_API_KEY,FLAG_STUDIO_KEY
         script: |
           pm2 stop --silent chat
           rm -rf wechaty-chatgpt
-          git clone https://github.com/quboqin/wechaty-chatgpt.git -b release wechaty-chatgpt
+          git clone $REPO_URL -b $REPO_BRANCH wechaty-chatgpt
           cd wechaty-chatgpt
           touch .env
           echo PADLOCAL_TOKEN=$PADLOCAL_TOKEN >> .env
