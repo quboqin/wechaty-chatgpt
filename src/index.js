@@ -3,6 +3,8 @@ import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
+
 import { WechatyBuilder } from 'wechaty'
 import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
 import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
@@ -90,8 +92,8 @@ const command_dictionary = {
 
 async function command_reply(room, contact, content) {
   content = content.trim()
-  // eslint-disable-next-line no-prototype-builtins
   let lowCaseContent = content.toLowerCase()
+  // eslint-disable-next-line no-prototype-builtins
   if (command_dictionary.hasOwnProperty(lowCaseContent)) {
     const target = room || contact
     await sendText(target, command_dictionary[lowCaseContent])
@@ -107,6 +109,11 @@ async function command_reply(room, contact, content) {
     await chatgptReplyText(room, contact, request)
   }
 
+  if (content.startsWith('/m ')) {
+    const prompt = content.replace('/m ', '')
+    await sendMessageTodiscord(prompt)
+  }
+
   if (content.startsWith('/i ')) {
     const request = content.replace('/i ', '')
     await chatgptReplayImage(room, contact, request)
@@ -119,6 +126,18 @@ async function command_reply(room, contact, content) {
     const style = messageArray[1]
     await flagStudioReplayImage(room, contact, prompt, style)
   }
+}
+
+async function sendMessageTodiscord(prompt) {
+  const channel = await discordClient.channels.fetch(CHANNEL_ID)
+  if (channel) {
+    channel.send(`/imagine prompt ${prompt}`)
+  }
+  // const user = await discordClient.users.fetch(MID_JOURNEY_ID)
+  // console.log(`user = ${user}`)
+  // if (user) {
+  //   user.send(`/imagine ${prompt}`)
+  // }
 }
 
 export async function sendImage(contact, base64String, imageUrl) {
