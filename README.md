@@ -3,6 +3,9 @@
 ### 1月20日
 创建项目
 
+
+
+
 ## 安装机器人
 ### 源码安装
 ```bash
@@ -25,3 +28,7 @@ pm2 start src/index.js
 - /c 使用chatgpt
 ## 感谢
 - <https://github.com/wechaty/wechaty/>
+
+## discord bot
+1. block
+[Is there any way I can run /imagine command for midJourney to imagine something from postman or node JS app?](https://stackoverflow.com/questions/75108392/is-there-any-way-i-can-run-imagine-command-for-midjourney-to-imagine-something)
