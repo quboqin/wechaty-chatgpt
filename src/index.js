@@ -3,6 +3,7 @@ import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+// eslint-disable-next-line no-unused-vars
 import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
 
 import { WechatyBuilder } from 'wechaty'
@@ -111,7 +112,7 @@ async function command_reply(room, contact, content) {
 
   if (content.startsWith('/m ')) {
     const prompt = content.replace('/m ', '')
-    await sendMessageTodiscord(prompt)
+    await sendMessageToDiscord(prompt)
   }
 
   if (content.startsWith('/i ')) {
@@ -128,7 +129,7 @@ async function command_reply(room, contact, content) {
   }
 }
 
-async function sendMessageTodiscord(prompt) {
+async function sendMessageToDiscord(prompt) {
   const channel = await discordClient.channels.fetch(CHANNEL_ID)
   if (channel) {
     channel.send(`/imagine prompt ${prompt}`)
