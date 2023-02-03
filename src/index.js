@@ -49,6 +49,7 @@ wechaty
   .on('room-join', async (room, inviteeList, inviter) => {
     console.log(`received ${inviter} ${room} room-join event `)
     await sendText(room, commander)
+    commander = null
   })
   .on('friendship', async (friendship) => {
     console.log(`received friend event from ${friendship.contact().name()}, messageType: ${friendship.type()}`)
