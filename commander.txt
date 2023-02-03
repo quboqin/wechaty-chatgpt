@@ -1,0 +1,5 @@
+/c or /chatgpt prompt - get message from chatgpt
+/i prompt - generate image from openai
+/f prompt - generate image from flagstudio
+ping - pang
+ding - dong

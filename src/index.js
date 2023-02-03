@@ -3,8 +3,16 @@ import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+import * as fs from 'fs'
+
+let commander = null
+
+fs.readFile('./commander.txt', 'utf-8', (err, data) => {
+  commander = data
+})
+
 // eslint-disable-next-line no-unused-vars
-import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
+// import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
 
 import { WechatyBuilder } from 'wechaty'
 import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
@@ -40,6 +48,7 @@ wechaty
   })
   .on('room-join', async (room, inviteeList, inviter) => {
     console.log(`received ${inviter} ${room} room-join event `)
+    await sendText(room, commander)
   })
   .on('friendship', async (friendship) => {
     console.log(`received friend event from ${friendship.contact().name()}, messageType: ${friendship.type()}`)
@@ -130,10 +139,10 @@ async function command_reply(room, contact, content) {
 }
 
 async function sendMessageToDiscord(prompt) {
-  const channel = await discordClient.channels.fetch(CHANNEL_ID)
-  if (channel) {
-    channel.send(`/imagine prompt ${prompt}`)
-  }
+  // const channel = await discordClient.channels.fetch(CHANNEL_ID)
+  // if (channel) {
+  //   channel.send(`/imagine prompt ${prompt}`)
+  // }
   // const user = await discordClient.users.fetch(MID_JOURNEY_ID)
   // console.log(`user = ${user}`)
   // if (user) {
