@@ -25,7 +25,6 @@ const wechaty = WechatyBuilder.build({
   puppet: 'wechaty-puppet-padlocal',
   puppetOptions: {
     token: process.env.PADLOCAL_TOKEN,
-    timeoutSeconds: 1800,
   },
 })
 
