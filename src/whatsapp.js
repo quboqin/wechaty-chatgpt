@@ -1,18 +1,20 @@
 import { Client, LocalAuth } from 'whatsapp-web.js'
 import qrcodeTerminal from 'qrcode-terminal'
+import { config as dotenv } from 'dotenv'
+dotenv({ path: `.env` })
 
+import { command_dictionary } from './constraint.js'
 import { chatgptReplyText } from './chatgpt.js'
 
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    args: ['--no-sandbox'],
+    args: [process.env.PUPPETEER_LAUNCH_COMMAND === '0' ? '' : '--no-sandbox'],
   },
 })
 
 client
   .on('qr', (qr) => {
-    // Generate and scan this code with your phone
     console.log('QR RECEIVED', qr)
     qrcodeTerminal.generate(qr, { small: true })
   })
@@ -26,18 +28,13 @@ client
 
 client.initialize()
 
-const command_dictionary = {
-  ding: 'dong',
-  ping: 'pang',
-}
-
 async function command_reply(message, content) {
   const target = client
   content = content.trim()
   let lowCaseContent = content.toLowerCase()
   // eslint-disable-next-line no-prototype-builtins
   if (command_dictionary.hasOwnProperty(lowCaseContent)) {
-    await sendText(target, command_dictionary[lowCaseContent])
+    await sendText(target, message, command_dictionary[lowCaseContent])
   }
 
   let prompt

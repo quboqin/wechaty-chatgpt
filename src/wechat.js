@@ -6,14 +6,14 @@ dotenv({ path: `.env` })
 import * as fs from 'fs'
 
 let commander = null
-
 fs.readFile('./commander.txt', 'utf-8', (err, data) => {
   commander = data
 })
 
+import { command_dictionary } from './constraint.js'
+
 // eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
-
 import { WechatyBuilder } from 'wechaty'
 import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
 import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
@@ -95,11 +95,6 @@ wechaty
   .then(() => console.log('Start to log in wechat...'))
   .catch((e) => console.error(e))
 
-const command_dictionary = {
-  ding: 'dong',
-  ping: 'pang',
-}
-
 async function command_reply(room, contact, content) {
   const target = room || contact
   content = content.trim()
@@ -121,11 +116,6 @@ async function command_reply(room, contact, content) {
     await chatgptReplyText(true, target, prompt, null)
   }
 
-  if (content.startsWith('/m ')) {
-    prompt = content.replace('/m ', '')
-    await sendMessageToDiscord(prompt)
-  }
-
   if (content.startsWith('/i ')) {
     prompt = content.replace('/i ', '')
     await chatgptReplayImage(target, prompt)
@@ -137,6 +127,11 @@ async function command_reply(room, contact, content) {
     prompt = messageArray[0]
     const style = messageArray[1]
     await flagStudioReplayImage(target, prompt, style)
+  }
+
+  if (content.startsWith('/m ')) {
+    prompt = content.replace('/m ', '')
+    await sendMessageToDiscord(prompt)
   }
 }
 
