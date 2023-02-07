@@ -75,7 +75,7 @@ wechaty
         if (groupContent) {
           content = groupContent.trim()
           if (!content.startsWith('/c')) {
-            await chatgptReplyText(room, contact, content)
+            await chatgptReplyText(true, room, content, null)
           }
         } else {
           // just @, without content
@@ -101,43 +101,46 @@ const command_dictionary = {
 }
 
 async function command_reply(room, contact, content) {
+  const target = room || contact
   content = content.trim()
   let lowCaseContent = content.toLowerCase()
   // eslint-disable-next-line no-prototype-builtins
   if (command_dictionary.hasOwnProperty(lowCaseContent)) {
-    const target = room || contact
     await sendText(target, command_dictionary[lowCaseContent])
   }
 
+  let prompt
+
   if (content.startsWith('/c ')) {
-    const request = content.replace('/c ', '')
-    await chatgptReplyText(room, contact, request)
+    prompt = content.replace('/c ', '')
+    await chatgptReplyText(true, target, prompt, null)
   }
 
   if (content.startsWith('/chatgpt ')) {
-    const request = content.replace('/chatgpt ', '')
-    await chatgptReplyText(room, contact, request)
+    prompt = content.replace('/chatgpt ', '')
+    await chatgptReplyText(true, target, prompt, null)
   }
 
   if (content.startsWith('/m ')) {
-    const prompt = content.replace('/m ', '')
+    prompt = content.replace('/m ', '')
     await sendMessageToDiscord(prompt)
   }
 
   if (content.startsWith('/i ')) {
-    const request = content.replace('/i ', '')
-    await chatgptReplayImage(room, contact, request)
+    prompt = content.replace('/i ', '')
+    await chatgptReplayImage(target, prompt)
   }
 
   if (content.startsWith('/f ')) {
     const request = content.replace('/f ', '')
     const messageArray = request.split(',')
-    const prompt = messageArray[0]
+    prompt = messageArray[0]
     const style = messageArray[1]
-    await flagStudioReplayImage(room, contact, prompt, style)
+    await flagStudioReplayImage(target, prompt, style)
   }
 }
 
+// eslint-disable-next-line no-unused-vars
 async function sendMessageToDiscord(prompt) {
   // const channel = await discordClient.channels.fetch(CHANNEL_ID)
   // if (channel) {
@@ -150,19 +153,19 @@ async function sendMessageToDiscord(prompt) {
   // }
 }
 
-export async function sendImage(contact, base64String, imageUrl) {
+export async function sendImage(target, base64String, imageUrl) {
   const fileBox = base64String ? FileBox.fromBase64(base64String, 'image.jpg') : FileBox.fromUrl(imageUrl)
 
   try {
-    await contact.say(fileBox)
+    await target.say(fileBox)
   } catch (e) {
     console.error(e)
   }
 }
 
-export async function sendText(contact, message) {
+export async function sendText(target, message) {
   try {
-    await contact.say(message)
+    await target.say(message)
   } catch (e) {
     console.error(e)
   }
