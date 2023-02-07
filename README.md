@@ -58,3 +58,6 @@ echo "                  奔驰宝马贵者趣，公交自行程序员。"
 echo "                  别人笑我忒疯癫，我笑自己命太贱；"
 echo "                  不见满街漂亮妹，哪个归得程序员？"
 ```
+
+## issues when deploying
+[Github Actions pm2: command not found](https://stackoverflow.com/questions/69644460/github-actions-pm2-command-not-found)
