@@ -26,6 +26,7 @@ jobs:
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
         envs: REPO_URL,REPO_BRANCH,PADLOCAL_TOKEN,OPENAI_API_KEY,FLAG_STUDIO_KEY,DISCORD_TOKEN
+        timeout: 300
         script: |
           pm2 stop --silent chat
           rm -rf wechaty-chatgpt
