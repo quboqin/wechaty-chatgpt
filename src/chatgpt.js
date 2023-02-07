@@ -28,13 +28,13 @@ export async function chatgptReplyText(room, contact, request) {
       temperature: 0.6,
       max_tokens: MAX_CHATGPT_TOKEN,
     })
+    response = `${request} \n ------ \n` + result.data.choices[0].text
   } catch (e) {
     if (!e.message) {
       response = `🤒 ${result.statusText}`
     }
     console.error(e)
   }
-  response = `${request} \n ------ \n` + result.data.choices[0].text
   const target = room || contact
   await sendText(target, response)
 }
