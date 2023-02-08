@@ -1,4 +1,4 @@
-name: wechat deployment
+name: chatgpt bot deployment
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/quboqin/wechaty-chatgpt.git
-  REPO_BRANCH: release  
+  REPO_BRANCH: ${{ github.head_ref || github.ref_name }}
   PADLOCAL_TOKEN: ${{ secrets.PADLOCAL_TOKEN }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   FLAG_STUDIO_KEY: ${{ secrets.FLAG_STUDIO_KEY }}
@@ -19,15 +19,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set env for wechat
+    - name: set env for wechat
       run: |
         echo "PROJECT_NAME=wechat" >> $GITHUB_ENV
-      if: startsWith(github.ref, 'refs/branches/wechat-release')
+      if: startsWith(github.ref_name, 'wechat-release')
 
-    - name: Set env for whatsapp
+    - name: set env for whatsapp
       run: |
         echo "PROJECT_NAME=whatsapp" >> $GITHUB_ENV
-      if: startsWith(github.ref, 'refs/branches/whatsapp-release')
+      if: startsWith(github.ref_name, 'whatsapp-release')
 
     - name: deploy using ssh
       uses: appleboy/ssh-action@master
