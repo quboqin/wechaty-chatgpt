@@ -13,7 +13,7 @@ export async function generateQRCode(qrcode) {
   console.log(qrcodeImageUrl)
 }
 
-export async function command_reply(room, contact, content, sendText, sendImage) {
+export async function commandReply(room, contact, content, sendText, sendImage) {
   const target = room || contact
   content = content.trim()
   let lowCaseContent = content.toLowerCase()

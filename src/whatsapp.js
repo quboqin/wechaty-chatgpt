@@ -3,7 +3,7 @@ const { Client, LocalAuth } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { generateQRCode, command_reply } from './utils.js'
+import { generateQRCode, commandReply } from './utils.js'
 
 let clientOptions = {
   authStrategy: new LocalAuth(),
@@ -17,16 +17,15 @@ if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
 
 const client = new Client(clientOptions)
 
-client.on('qr', (qrCode) => generateQRCode(qrCode))
-
-client.on('ready', () => {
-  console.log('Client is ready!')
-})
-
-client.on('message', (message) => {
-  console.log(message)
-  command_reply(null, message.from, message.body)
-})
+client
+  .on('qr', async (qrCode) => generateQRCode(qrCode))
+  .on('ready', () => {
+    console.log('Client is ready!')
+  })
+  .on('message', async (message) => {
+    console.log(message)
+    await commandReply(null, message.from, message.body)
+  })
 
 client.initialize()
 

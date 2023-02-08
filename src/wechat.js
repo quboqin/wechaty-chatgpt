@@ -9,7 +9,7 @@ fs.readFile('./commander.txt', 'utf-8', (err, data) => {
   commander = data
 })
 
-import { generateQRCode, command_reply } from './utils.js'
+import { generateQRCode, commandReply } from './utils.js'
 import { chatgptReplyText } from './chatgpt.js'
 
 // eslint-disable-next-line no-unused-vars
@@ -67,7 +67,7 @@ wechaty
           content = groupContent.trim()
           if (!content.startsWith('/c')) {
             let result = await chatgptReplyText(content)
-            sendText(room, result)
+            await sendText(room, result)
           }
         } else {
           // just @, without content
@@ -75,10 +75,10 @@ wechaty
         }
       }
       console.log(`room name: ${topic} contact: ${contact} content: ${content}`)
-      command_reply(room, contact, content)
+      await commandReply(room, contact, content)
     } else {
       console.log(`contact: ${contact} content: ${content}`)
-      command_reply(null, contact, content)
+      await commandReply(null, contact, content)
     }
   })
 
