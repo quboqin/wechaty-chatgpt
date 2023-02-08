@@ -5,9 +5,6 @@ dotenv({ path: `.env` })
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
 const MAX_CHATGPT_TOKEN = 2048
 
-import { sendImage, sendText } from './wechat.js'
-import { sendText as sendTextToWhatsapp } from './whatsapp.js'
-
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 })
@@ -17,7 +14,7 @@ const openai = new OpenAIApi(configuration)
 // For most models, this is 2,048 tokens or about 1,500 words.
 // As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text.
 // Pricing is pay-as-you-go per 1,000 tokens, with $18 in free credit that can be used during your first 3 months. Learn more.
-export async function chatgptReplyText(isWechat, target, prompt) {
+export async function chatgptReplyText(target, prompt, sendText) {
   console.log(`contact: ${target} request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
   let result
@@ -36,14 +33,10 @@ export async function chatgptReplyText(isWechat, target, prompt) {
     }
     console.error(e)
   }
-  if (isWechat) {
-    await sendText(target, response)
-  } else {
-    await sendTextToWhatsapp(target, response)
-  }
+  await sendText(target, response)
 }
 
-export async function chatgptReplayImage(target, prompt) {
+export async function chatgptReplayImage(target, prompt, sendText, sendImage) {
   let response = '🤒 error occurred, please try again later...'
   let result
 

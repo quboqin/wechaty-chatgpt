@@ -1,0 +1,12 @@
+2023/02/08-18:21:04.247 8b07 Reusing MANIFEST /Users/qinqubo/magic/projects/wechaty-chatgpt/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2023/02/08-18:21:04.247 8b07 Recovering log #127
+2023/02/08-18:21:04.272 8b07 Reusing old log /Users/qinqubo/magic/projects/wechaty-chatgpt/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000127.log 
+2023/02/08-18:21:04.709 8603 Level-0 table #132: started
+2023/02/08-18:21:04.727 8603 Level-0 table #132: 1117469 bytes OK
+2023/02/08-18:21:04.736 8603 Delete type=0 #127
+2023/02/08-18:21:14.666 f903 Compacting 1@1 + 1@2 files
+2023/02/08-18:21:14.710 f903 Generated table #133@1: 4389 keys, 185846 bytes
+2023/02/08-18:21:14.710 f903 Compacted 1@1 + 1@2 files => 185846 bytes
+2023/02/08-18:21:14.718 f903 compacted to: files[ 0 0 1 0 0 0 0 ]
+2023/02/08-18:21:14.719 f903 Delete type=2 #129
+2023/02/08-18:21:14.719 f903 Delete type=2 #132

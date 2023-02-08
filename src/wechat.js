@@ -10,7 +10,7 @@ fs.readFile('./commander.txt', 'utf-8', (err, data) => {
 })
 
 import { command_dictionary } from './constraint.js'
-import { generateQRCode } from './utils'
+import { generateQRCode } from './utils.js'
 
 // eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
@@ -70,7 +70,7 @@ wechaty
         if (groupContent) {
           content = groupContent.trim()
           if (!content.startsWith('/c')) {
-            await chatgptReplyText(true, room, content)
+            await chatgptReplyText(true, room, content, sendText)
           }
         } else {
           // just @, without content
@@ -103,12 +103,12 @@ async function command_reply(room, contact, content) {
 
   if (content.startsWith('/c ')) {
     prompt = content.replace('/c ', '')
-    await chatgptReplyText(true, target, prompt)
+    await chatgptReplyText(true, target, prompt, sendText)
   }
 
   if (content.startsWith('/i ')) {
     prompt = content.replace('/i ', '')
-    await chatgptReplayImage(target, prompt)
+    await chatgptReplayImage(target, prompt, sendText, sendImage)
   }
 
   if (content.startsWith('/f ')) {

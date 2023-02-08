@@ -1,10 +1,11 @@
-import { Client, LocalAuth } from 'whatsapp-web.js'
+import WhatsApp from 'whatsapp-web.js'
+const { Client, LocalAuth } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { command_dictionary } from './constraint.js'
 import { chatgptReplyText } from './chatgpt.js'
-import { generateQRCode } from './utils'
+import { generateQRCode } from './utils.js'
 
 let clientOptions = {
   authStrategy: new LocalAuth(),
@@ -18,14 +19,16 @@ if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
 
 const client = new Client(clientOptions)
 
-client
-  .on('qr', async (qrCode) => await generateQRCode(qrCode))
-  .on('ready', () => {
-    console.log('Client is ready!')
-  })
-  .on('message', async (message) => {
-    command_reply(message.from, message.body)
-  })
+client.on('qr', (qrCode) => generateQRCode(qrCode))
+
+client.on('ready', () => {
+  console.log('Client is ready!')
+})
+
+client.on('message', (message) => {
+  console.log(message)
+  command_reply(message.from, message.body)
+})
 
 client.initialize()
 
@@ -39,7 +42,7 @@ async function command_reply(contact, content) {
 
   if (content.startsWith('/c ')) {
     let prompt = content.replace('/c ', '')
-    await chatgptReplyText(false, contact, prompt)
+    await chatgptReplyText(false, contact, prompt, sendText)
   }
 }
 
