@@ -3,9 +3,7 @@ const { Client, LocalAuth } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { command_dictionary } from './constraint.js'
-import { chatgptReplyText } from './chatgpt.js'
-import { generateQRCode } from './utils.js'
+import { generateQRCode, command_reply } from './utils.js'
 
 let clientOptions = {
   authStrategy: new LocalAuth(),
@@ -27,25 +25,10 @@ client.on('ready', () => {
 
 client.on('message', (message) => {
   console.log(message)
-  command_reply(message.from, message.body)
+  command_reply(null, message.from, message.body)
 })
 
 client.initialize()
-
-async function command_reply(contact, content) {
-  content = content.trim()
-  let lowCaseContent = content.toLowerCase()
-  // eslint-disable-next-line no-prototype-builtins
-  if (command_dictionary.hasOwnProperty(lowCaseContent)) {
-    await sendText(contact, command_dictionary[lowCaseContent])
-  }
-
-  if (content.startsWith('/c ')) {
-    let prompt = content.replace('/c ', '')
-    let result = await chatgptReplyText(prompt)
-    sendText(contact, result)
-  }
-}
 
 export async function sendText(target, content) {
   try {
