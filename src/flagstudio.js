@@ -2,7 +2,6 @@ import axios from 'axios'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { sendImage, sendText } from './wechat.js'
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
 
 const instance = axios.create({
@@ -25,8 +24,9 @@ export async function getFlagStudioToken() {
   console.log(`flag_Studio_token = ${flag_Studio_token}`)
 }
 
-export async function flagStudioReplayImage(target, prompt, style) {
+export async function flagStudioReplayImage(prompt, style) {
   let response
+  let base64String
   let result
 
   console.log(`flagstudio received: prompt = ${prompt}, style = ${style}`)
@@ -50,13 +50,16 @@ export async function flagStudioReplayImage(target, prompt, style) {
       },
     )
 
-    const base64String = result.data.data
-    await sendImage(target, base64String, null)
+    base64String = result.data.data
   } catch (e) {
     if (!e.message) {
       response = `🤒 ${result.statusText}`
     }
     console.error(e)
-    await sendText(target, response)
+  }
+
+  return {
+    response,
+    base64String,
   }
 }

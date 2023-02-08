@@ -42,7 +42,8 @@ async function command_reply(contact, content) {
 
   if (content.startsWith('/c ')) {
     let prompt = content.replace('/c ', '')
-    await chatgptReplyText(false, contact, prompt, sendText)
+    let result = await chatgptReplyText(prompt)
+    sendText(contact, result)
   }
 }
 

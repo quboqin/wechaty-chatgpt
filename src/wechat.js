@@ -99,16 +99,18 @@ async function command_reply(room, contact, content) {
     await sendText(target, command_dictionary[lowCaseContent])
   }
 
-  let prompt
+  let prompt, result
 
   if (content.startsWith('/c ')) {
     prompt = content.replace('/c ', '')
-    await chatgptReplyText(true, target, prompt, sendText)
+    result = await chatgptReplyText(prompt)
+    await sendText(target, result)
   }
 
   if (content.startsWith('/i ')) {
     prompt = content.replace('/i ', '')
-    await chatgptReplayImage(target, prompt, sendText, sendImage)
+    result = await chatgptReplayImage(prompt)
+    await sendImage(target, null, result.image_url)
   }
 
   if (content.startsWith('/f ')) {
@@ -116,7 +118,8 @@ async function command_reply(room, contact, content) {
     const messageArray = request.split(',')
     prompt = messageArray[0]
     const style = messageArray[1]
-    await flagStudioReplayImage(target, prompt, style)
+    result = await flagStudioReplayImage(target, prompt, style)
+    await sendImage(target, result.base64String, null)
   }
 
   if (content.startsWith('/m ')) {

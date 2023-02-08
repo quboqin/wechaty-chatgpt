@@ -14,8 +14,8 @@ const openai = new OpenAIApi(configuration)
 // For most models, this is 2,048 tokens or about 1,500 words.
 // As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text.
 // Pricing is pay-as-you-go per 1,000 tokens, with $18 in free credit that can be used during your first 3 months. Learn more.
-export async function chatgptReplyText(target, prompt, sendText) {
-  console.log(`contact: ${target} request: ${prompt}`)
+export async function chatgptReplyText(prompt) {
+  console.log(`request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
   let result
 
@@ -33,11 +33,13 @@ export async function chatgptReplyText(target, prompt, sendText) {
     }
     console.error(e)
   }
-  await sendText(target, response)
+
+  return response
 }
 
-export async function chatgptReplayImage(target, prompt, sendText, sendImage) {
+export async function chatgptReplayImage(prompt) {
   let response = '🤒 error occurred, please try again later...'
+  let image_url
   let result
 
   try {
@@ -46,13 +48,16 @@ export async function chatgptReplayImage(target, prompt, sendText, sendImage) {
       n: 1,
       size: `${IMAGE_HEIGHT}x${IMAGE_WIDTH}`,
     })
-    let image_url = result.data.data[0].url
-    await sendImage(target, null, image_url)
+    image_url = result.data.data[0].url
+    response = ''
   } catch (e) {
     if (!e.message) {
       response = `🤒 ${result.statusText}`
     }
     console.error(e)
-    await sendText(target, response)
+  }
+  return {
+    response,
+    image_url,
   }
 }
