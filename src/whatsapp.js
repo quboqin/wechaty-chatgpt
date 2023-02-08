@@ -1,58 +1,51 @@
 import { Client, LocalAuth } from 'whatsapp-web.js'
-import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { command_dictionary } from './constraint.js'
 import { chatgptReplyText } from './chatgpt.js'
+import { generateQRCode } from './utils'
 
-const client = new Client({
+let clientOptions = {
   authStrategy: new LocalAuth(),
-  puppeteer: {
-    args: [process.env.PUPPETEER_LAUNCH_COMMAND === '0' ? '' : '--no-sandbox'],
-  },
-})
+}
+
+if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
+  clientOptions.puppeteer = {
+    args: ['--no-sandbox'],
+  }
+}
+
+const client = new Client(clientOptions)
 
 client
-  .on('qr', (qr) => {
-    console.log('QR RECEIVED', qr)
-    qrcodeTerminal.generate(qr, { small: true })
-  })
+  .on('qr', async (qrCode) => await generateQRCode(qrCode))
   .on('ready', () => {
     console.log('Client is ready!')
   })
   .on('message', async (message) => {
-    const content = message.body
-    command_reply(message, content)
+    command_reply(message.from, message.body)
   })
 
 client.initialize()
 
-async function command_reply(message, content) {
-  const target = client
+async function command_reply(contact, content) {
   content = content.trim()
   let lowCaseContent = content.toLowerCase()
   // eslint-disable-next-line no-prototype-builtins
   if (command_dictionary.hasOwnProperty(lowCaseContent)) {
-    await sendText(target, message, command_dictionary[lowCaseContent])
+    await sendText(contact, command_dictionary[lowCaseContent])
   }
-
-  let prompt
 
   if (content.startsWith('/c ')) {
-    prompt = content.replace('/c ', '')
-    await chatgptReplyText(false, target, prompt, message)
-  }
-
-  if (content.startsWith('/chatgpt ')) {
-    prompt = content.replace('/chatgpt ', '')
-    await chatgptReplyText(false, target, prompt, message)
+    let prompt = content.replace('/c ', '')
+    await chatgptReplyText(false, contact, prompt)
   }
 }
 
-export async function sendText(target, message, content) {
+export async function sendText(target, content) {
   try {
-    await target.sendMessage(message.from, content)
+    await client.sendMessage(target, content)
   } catch (e) {
     console.error(e)
   }

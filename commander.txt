@@ -1,5 +1,5 @@
 聊天指令帮助
-/c or /chatgpt prompt - get message from chatgpt
+/c prompt - get message from chatgpt
 /i prompt - generate image from openai
 /f prompt - generate image from flagstudio
 ping - pang

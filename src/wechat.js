@@ -1,5 +1,4 @@
 import { FileBox } from 'file-box'
-import qrcodeTerminal from 'qrcode-terminal'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
@@ -11,6 +10,7 @@ fs.readFile('./commander.txt', 'utf-8', (err, data) => {
 })
 
 import { command_dictionary } from './constraint.js'
+import { generateQRCode } from './utils'
 
 // eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
@@ -30,11 +30,7 @@ const wechaty = WechatyBuilder.build({
 
 wechaty
   // eslint-disable-next-line no-unused-vars
-  .on('scan', async (qrcode, status) => {
-    qrcodeTerminal.generate(qrcode)
-    const qrcodeImageUrl = ['https://api.qrserver.com/v1/create-qr-code/?data=', encodeURIComponent(qrcode)].join('')
-    console.log(qrcodeImageUrl)
-  })
+  .on('scan', async (qrcode) => await generateQRCode(qrcode))
   .on('login', (user) => console.log(`User ${user} logged in`))
   .on('logout', (user) => console.log(`User ${user} has logged out`))
   .on('room-invite', async (roomInvitation) => {
@@ -48,7 +44,6 @@ wechaty
   .on('room-join', async (room, inviteeList, inviter) => {
     console.log(`received ${inviter} ${room} room-join event `)
     await sendText(room, commander)
-    commander = null
   })
   .on('friendship', async (friendship) => {
     console.log(`received friend event from ${friendship.contact().name()}, messageType: ${friendship.type()}`)
@@ -75,7 +70,7 @@ wechaty
         if (groupContent) {
           content = groupContent.trim()
           if (!content.startsWith('/c')) {
-            await chatgptReplyText(true, room, content, null)
+            await chatgptReplyText(true, room, content)
           }
         } else {
           // just @, without content
@@ -108,12 +103,7 @@ async function command_reply(room, contact, content) {
 
   if (content.startsWith('/c ')) {
     prompt = content.replace('/c ', '')
-    await chatgptReplyText(true, target, prompt, null)
-  }
-
-  if (content.startsWith('/chatgpt ')) {
-    prompt = content.replace('/chatgpt ', '')
-    await chatgptReplyText(true, target, prompt, null)
+    await chatgptReplyText(true, target, prompt)
   }
 
   if (content.startsWith('/i ')) {

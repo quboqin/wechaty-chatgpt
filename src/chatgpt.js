@@ -17,7 +17,7 @@ const openai = new OpenAIApi(configuration)
 // For most models, this is 2,048 tokens or about 1,500 words.
 // As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text.
 // Pricing is pay-as-you-go per 1,000 tokens, with $18 in free credit that can be used during your first 3 months. Learn more.
-export async function chatgptReplyText(isWechat, target, prompt, message) {
+export async function chatgptReplyText(isWechat, target, prompt) {
   console.log(`contact: ${target} request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
   let result
@@ -39,7 +39,7 @@ export async function chatgptReplyText(isWechat, target, prompt, message) {
   if (isWechat) {
     await sendText(target, response)
   } else {
-    sendTextToWhatsapp(target, message, response)
+    await sendTextToWhatsapp(target, response)
   }
 }
 
