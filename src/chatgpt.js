@@ -28,10 +28,11 @@ export async function chatgptReplyText(prompt) {
     })
     response = `${prompt} \n ------ \n` + result.data.choices[0].text
   } catch (e) {
-    if (!e.message) {
-      response = `🤒 ${result.statusText}`
+    if (!e.response) {
+      console.error(e.response)
+      // focus on status == 429, Too Many Requests
+      response = `🤒 ${e.response.statusText}`
     }
-    console.error(e)
   }
 
   return response
@@ -51,10 +52,11 @@ export async function chatgptReplayImage(prompt) {
     image_url = result.data.data[0].url
     response = ''
   } catch (e) {
-    if (!e.message) {
-      response = `🤒 ${result.statusText}`
+    if (!e.response) {
+      console.error(e.response)
+      // focus on status == 429, Too Many Requests
+      response = `🤒 ${e.response.statusText}`
     }
-    console.error(e)
   }
   return {
     response,

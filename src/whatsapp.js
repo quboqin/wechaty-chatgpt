@@ -1,5 +1,5 @@
 import WhatsApp from 'whatsapp-web.js'
-const { Client, LocalAuth } = WhatsApp
+const { Client, LocalAuth, MessageMedia } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
@@ -22,7 +22,7 @@ client
   })
   .on('message', async (message) => {
     console.log(message.body)
-    await commandReply(null, message.from, message.body, sendText)
+    await commandReply(null, message.from, message.body, sendText, sendImage)
   })
 
 client.initialize()
@@ -30,6 +30,17 @@ client.initialize()
 export async function sendText(target, content) {
   try {
     await client.sendMessage(target, content)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function sendImage(target, base64String, imageUrl) {
+  try {
+    const media = await MessageMedia.fromUrl(imageUrl)
+    media.mimetype = 'image/png'
+    media.filename = 'CustomImageName.png'
+    await client.sendMessage(target, media)
   } catch (e) {
     console.error(e)
   }

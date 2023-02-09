@@ -87,19 +87,19 @@ wechaty
   .then(() => console.log('Start to log in wechat...'))
   .catch((e) => console.error(e))
 
-export async function sendImage(target, base64String, imageUrl) {
-  const fileBox = base64String ? FileBox.fromBase64(base64String, 'image.jpg') : FileBox.fromUrl(imageUrl)
-
+export async function sendText(target, message) {
   try {
-    await target.say(fileBox)
+    await target.say(message)
   } catch (e) {
     console.error(e)
   }
 }
 
-export async function sendText(target, message) {
+export async function sendImage(target, base64String, imageUrl) {
+  const fileBox = base64String ? FileBox.fromBase64(base64String, 'image.jpg') : FileBox.fromUrl(imageUrl)
+
   try {
-    await target.say(message)
+    await target.say(fileBox)
   } catch (e) {
     console.error(e)
   }
