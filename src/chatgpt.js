@@ -40,7 +40,7 @@ export async function chatgptReplyText(prompt) {
 
 export async function chatgptReplayImage(prompt) {
   let response = '🤒 error occurred, please try again later...'
-  let image_url
+  let imageUrl
   let result
 
   try {
@@ -49,8 +49,9 @@ export async function chatgptReplayImage(prompt) {
       n: 1,
       size: `${IMAGE_HEIGHT}x${IMAGE_WIDTH}`,
     })
-    image_url = result.data.data[0].url
+    imageUrl = result.data.data[0].url
     response = ''
+    console.log(`imageUrl = ${imageUrl}`)
   } catch (e) {
     if (e.response) {
       console.error(e.response.statusText)
@@ -60,6 +61,6 @@ export async function chatgptReplayImage(prompt) {
   }
   return {
     response,
-    image_url,
+    imageUrl,
   }
 }

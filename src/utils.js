@@ -33,7 +33,7 @@ export async function commandReply(room, contact, content, sendText, sendImage) 
   if (content.startsWith('/i ')) {
     prompt = content.replace('/i ', '')
     result = await chatgptReplayImage(prompt)
-    await sendImage(target, null, result.image_url)
+    await sendImage(target, null, result.imageUrl)
   }
 
   if (content.startsWith('/f ')) {
