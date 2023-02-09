@@ -5,13 +5,11 @@ dotenv({ path: `.env` })
 
 import { generateQRCode, commandReply } from './utils.js'
 
-let clientOptions = {
-  authStrategy: new LocalAuth(),
-}
+let clientOptions = {}
 
 if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
   clientOptions.puppeteer = {
-    args: ['--no-sandbox'],
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
   }
 }
 
@@ -23,8 +21,8 @@ client
     console.log('Client is ready!')
   })
   .on('message', async (message) => {
-    console.log(message)
-    await commandReply(null, message.from, message.body)
+    console.log(message.body)
+    await commandReply(null, message.from, message.body, sendText)
   })
 
 client.initialize()

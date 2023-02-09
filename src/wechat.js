@@ -75,10 +75,10 @@ wechaty
         }
       }
       console.log(`room name: ${topic} contact: ${contact} content: ${content}`)
-      await commandReply(room, contact, content)
+      await commandReply(room, contact, content, sendText, sendImage)
     } else {
       console.log(`contact: ${contact} content: ${content}`)
-      await commandReply(null, contact, content)
+      await commandReply(null, contact, content, sendText, sendImage)
     }
   })
 
