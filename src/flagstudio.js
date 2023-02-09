@@ -51,11 +51,12 @@ export async function flagStudioReplayImage(prompt, style) {
     )
 
     base64String = result.data.data
+    response = ''
   } catch (e) {
-    if (!e.message) {
-      response = `🤒 ${result.statusText}`
+    if (e.response) {
+      console.error(e.response.statusText)
+      response = `🤒 ${e.response.statusText}`
     }
-    console.error(e)
   }
 
   return {
