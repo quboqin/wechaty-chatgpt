@@ -13,7 +13,9 @@ if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
   }
 }
 
-console.log(`PUPPETEER_LAUNCH_COMMAND = ${process.env.PUPPETEER_LAUNCH_COMMAND},clientOptions = ${clientOptions}`)
+console.log(
+  `PUPPETEER_LAUNCH_COMMAND = ${process.env.PUPPETEER_LAUNCH_COMMAND},clientOptions = ${JSON.stringify(clientOptions)}`,
+)
 
 const client = new Client(clientOptions)
 
