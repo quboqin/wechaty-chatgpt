@@ -7,7 +7,7 @@ import { generateQRCode, commandReply } from './utils.js'
 
 let clientOptions = {}
 
-if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
+if (process.env.PUPPETEER_LAUNCH_COMMAND === 'prod') {
   clientOptions.puppeteer = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   }
