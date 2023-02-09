@@ -13,6 +13,8 @@ if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
   }
 }
 
+console.log(clientOptions)
+
 const client = new Client(clientOptions)
 
 client
