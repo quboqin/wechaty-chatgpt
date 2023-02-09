@@ -7,11 +7,11 @@ import { generateQRCode, commandReply } from './utils.js'
 
 let clientOptions = {}
 
-if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
-  clientOptions.puppeteer = {
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-  }
+// if (process.env.PUPPETEER_LAUNCH_COMMAND === '1') {
+clientOptions.puppeteer = {
+  args: ['--no-sandbox', '--disable-setuid-sandbox'],
 }
+// }
 
 console.log(
   `PUPPETEER_LAUNCH_COMMAND = ${process.env.PUPPETEER_LAUNCH_COMMAND},clientOptions = ${JSON.stringify(clientOptions)}`,
