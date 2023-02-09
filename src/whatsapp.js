@@ -7,17 +7,17 @@ import { generateQRCode, commandReply } from './utils.js'
 
 let clientOptions = {}
 
+if (process.env.WHATSAPP_AUTH === 'LocalAuth') {
+  clientOptions.authStrategy = new LocalAuth()
+}
+
 if (process.env.PUPPETEER === 'prod') {
   clientOptions.puppeteer = {
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   }
 }
 
-console.log(
-  `env = ${JSON.stringify(process.env)}, PUPPETEER = ${process.env.PUPPETEER},clientOptions = ${JSON.stringify(
-    clientOptions,
-  )}`,
-)
+console.log(`clientOptions = ${JSON.stringify(clientOptions)}`)
 
 const client = new Client(clientOptions)
 
