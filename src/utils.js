@@ -3,9 +3,9 @@ import qrcodeTerminal from 'qrcode-terminal'
 import { command_dictionary } from './constraint.js'
 
 import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
-// import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
+import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
 
-// await getFlagStudioToken()
+await getFlagStudioToken()
 
 export async function generateQRCode(qrcode) {
   await qrcodeTerminal.generate(qrcode, { small: true })
@@ -36,14 +36,14 @@ export async function commandReply(room, contact, content, sendText, sendImage) 
     await sendImage(target, null, result.imageUrl)
   }
 
-  // if (content.startsWith('/f ')) {
-  //   const request = content.replace('/f ', '')
-  //   const messageArray = request.split(',')
-  //   prompt = messageArray[0]
-  //   const style = messageArray[1]
-  //   result = await flagStudioReplayImage(target, prompt, style)
-  //   await sendImage(target, result.base64String, null)
-  // }
+  if (content.startsWith('/f ')) {
+    const request = content.replace('/f ', '')
+    const messageArray = request.split(',')
+    prompt = messageArray[0]
+    const style = messageArray[1]
+    result = await flagStudioReplayImage(target, prompt, style)
+    await sendImage(target, result.base64String, null)
+  }
 
   if (content.startsWith('/m ')) {
     prompt = content.replace('/m ', '')
