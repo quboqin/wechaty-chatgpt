@@ -63,6 +63,11 @@ echo "                  不见满街漂亮妹，哪个归得程序员？"
 
 ## issues when deploying on an VPS
 [Github Actions pm2: command not found](https://stackoverflow.com/questions/69644460/github-actions-pm2-command-not-found)
+```shell
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/node" "/usr/local/bin/node"
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/npm" "/usr/local/bin/npm"
+sudo ln -s "$NVM_DIR/versions/node/$(nvm version)/bin/pm2" "/usr/local/bin/pm2"
+```
 
 For puppeteer to work, you need to install the following dependencies with the apt-get, and install Chromium-browser
 ```shell
