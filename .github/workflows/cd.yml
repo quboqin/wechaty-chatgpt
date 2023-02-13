@@ -3,7 +3,7 @@ name: chatgpt bot deployment
 on:
   workflow_dispatch:
   push:
-    branches: [ wechat-release, whatsapp-release ]
+    branches: [ wechat-release, whatsapp-release, telegram-release ]
 
 env:
   REPO_URL: https://github.com/quboqin/wechaty-chatgpt.git
@@ -14,6 +14,7 @@ env:
   DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
   WECHAT_HOST: ${{ secrets.WECHAT_HOST }}
   WHATSAPP_HOST: ${{ secrets.WHATSAPP_HOST }}
+  TELEGRAM_HOST: ${{ secrets.TELEGRAM_HOST }}
   PUPPETEER: prod
 
 jobs:
@@ -27,7 +28,7 @@ jobs:
 
     - name: select host
       run: |
-        [[ $PROJECT_NAME == "wechat" ]] && echo "HOST=`echo $WECHAT_HOST`" >> $GITHUB_ENV || echo "HOST=`echo $WHATSAPP_HOST`" >> $GITHUB_ENV        
+        echo "HOST=`echo $"$PROJECT_NAME"_HOST`" >> $GITHUB_ENV    
 
     - name: deploy using ssh
       uses: appleboy/ssh-action@master
