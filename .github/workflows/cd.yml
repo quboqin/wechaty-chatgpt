@@ -28,7 +28,14 @@ jobs:
 
     - name: select host
       run: |
-        echo "HOST=`echo $"$PROJECT_NAME"_HOST`" >> $GITHUB_ENV    
+        if [[ "$PROJECT_NAME" == "wechat" ]]
+        then
+          echo "HOST=`echo $WECHAT_HOST`" >> $GITHUB_ENV
+        elif [[ "$PROJECT_NAME" == "whatsapp" ]] 
+          echo "HOST=`echo $WHATSAPP_HOST`" >> $GITHUB_ENV
+        else 
+          echo "HOST=`echo $TELEGRAM_HOST`" >> $GITHUB_ENV
+        fi
 
     - name: deploy using ssh
       uses: appleboy/ssh-action@master
