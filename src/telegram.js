@@ -23,11 +23,7 @@ export async function sendText(target, message) {
 
 export async function sendImage(target, base64String, imageUrl) {
   try {
-    await bot.sendPhoto({
-      chat_id: target,
-      caption: 'this is a photo',
-      photo: imageUrl,
-    })
+    await bot.sendPhoto(target, imageUrl, { caption: 'this is a photo' })
   } catch (e) {
     console.error(e)
   }
