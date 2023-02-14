@@ -23,21 +23,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: set project name
+    - name: set project name and host
       run: |
         echo "PROJECT_NAME=`echo $REPO_BRANCH | sed 's/-release//g'`" >> $GITHUB_ENV
-
-    - name: select host
-      run: |
-        if [[ "$PROJECT_NAME" == "wechat" ]]
-        then
-          echo "HOST=`echo $WECHAT_HOST`" >> $GITHUB_ENV
-        elif [[ "$PROJECT_NAME" == "whatsapp" ]]
-        then 
-          echo "HOST=`echo $WHATSAPP_HOST`" >> $GITHUB_ENV
-        else 
-          echo "HOST=`echo $TELEGRAM_HOST`" >> $GITHUB_ENV
-        fi
+        UPPER_PROJECT_NAME=`echo $PROJECT_NAME | tr '[:lower:]' '[:upper:]'`
+        echo "HOST=`eval echo '$'"$UPPER_PROJECT_NAME"_HOST`" >> $GITHUB_ENV
 
     - name: deploy using ssh
       uses: appleboy/ssh-action@master
