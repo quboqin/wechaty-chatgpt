@@ -6,6 +6,8 @@ import { commandReply } from './core-service.js'
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 
+console.log('start telegram bot...')
+
 bot.on('message', async (message) => {
   console.log(message.body)
   await commandReply(null, message.chat.id, message.body, sendText, sendImage)
