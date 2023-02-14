@@ -9,6 +9,7 @@ env:
   REPO_URL: https://github.com/quboqin/wechaty-chatgpt.git
   REPO_BRANCH: ${{ github.head_ref || github.ref_name }}
   PADLOCAL_TOKEN: ${{ secrets.PADLOCAL_TOKEN }}
+  TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   FLAG_STUDIO_KEY: ${{ secrets.FLAG_STUDIO_KEY }}
   DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
@@ -45,7 +46,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.PRIVATE_KEY }}
         port: 22
-        envs: REPO_URL,REPO_BRANCH,PADLOCAL_TOKEN,OPENAI_API_KEY,FLAG_STUDIO_KEY,DISCORD_TOKEN,PUPPETEER,PROJECT_NAME
+        envs: REPO_URL,REPO_BRANCH,PADLOCAL_TOKEN,OPENAI_API_KEY,TELEGRAM_TOKEN,FLAG_STUDIO_KEY,DISCORD_TOKEN,PUPPETEER,PROJECT_NAME
         timeout: 300s
         script: |
           pm2 stop --silent $PROJECT_NAME
@@ -55,6 +56,7 @@ jobs:
           touch .env
           echo PADLOCAL_TOKEN=$PADLOCAL_TOKEN >> .env
           echo OPENAI_API_KEY=$OPENAI_API_KEY >> .env
+          echo TELEGRAM_TOKEN=$TELEGRAM_TOKEN >> .env
           echo FLAG_STUDIO_KEY=$FLAG_STUDIO_KEY >> .env
           echo DISCORD_TOKEN=$DISCORD_TOKEN >> .env
           echo PUPPETEER=$PUPPETEER >> .env
