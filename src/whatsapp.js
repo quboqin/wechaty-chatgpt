@@ -1,9 +1,10 @@
 import WhatsApp from 'whatsapp-web.js'
-const { Client, LocalAuth, MessageMedia } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { generateQRCode, commandReply } from './core-service.js'
+
+const { Client, LocalAuth, MessageMedia } = WhatsApp
 
 let clientOptions = {}
 
@@ -17,14 +18,12 @@ if (process.env.PUPPETEER === 'prod') {
   }
 }
 
-console.log(`clientOptions = ${JSON.stringify(clientOptions)}`)
-
 const client = new Client(clientOptions)
 
 client
   .on('qr', async (qrCode) => generateQRCode(qrCode))
   .on('ready', () => {
-    console.log('Client is ready!')
+    console.log('whatsapp client is ready!')
   })
   .on('message', async (message) => {
     console.log(message.body)
@@ -45,7 +44,7 @@ export async function sendImage(target, base64String, imageUrl) {
   try {
     const media = await MessageMedia.fromUrl(imageUrl)
     media.mimetype = 'image/png'
-    media.filename = 'CustomImageName.png'
+    media.filename = 'image.png'
     await client.sendMessage(target, media)
   } catch (e) {
     console.error(e)

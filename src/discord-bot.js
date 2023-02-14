@@ -1,11 +1,10 @@
+import fs from 'fs'
+import fetch from 'node-fetch'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import discord from 'discord.js'
 const { Client, GatewayIntentBits } = discord
-
-import fs from 'fs'
-import fetch from 'node-fetch'
 
 const QUBO_ID = '450851527364575244'
 const MID_JOURNEY_ID = '936929561302675456'

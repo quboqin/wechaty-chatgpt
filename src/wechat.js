@@ -1,20 +1,20 @@
 import { FileBox } from 'file-box'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
-
 import * as fs from 'fs'
-
-let commander = null
-fs.readFile('./commander.txt', 'utf-8', (err, data) => {
-  commander = data
-})
 
 import { generateQRCode, commandReply } from './core-service.js'
 import { chatgptReplyText } from './chatgpt.js'
 
 // eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
+
 import { WechatyBuilder } from 'wechaty'
+
+let commander = null
+fs.readFile('./commander.txt', 'utf-8', (err, data) => {
+  commander = data
+})
 
 const wechaty = WechatyBuilder.build({
   name: 'wechaty-chatgpt',
@@ -25,7 +25,6 @@ const wechaty = WechatyBuilder.build({
 })
 
 wechaty
-  // eslint-disable-next-line no-unused-vars
   .on('scan', async (qrcode) => await generateQRCode(qrcode))
   .on('login', (user) => console.log(`User ${user} logged in`))
   .on('logout', (user) => console.log(`User ${user} has logged out`))

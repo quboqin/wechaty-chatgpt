@@ -1,8 +1,9 @@
-import TelegramBot from 'node-telegram-bot-api'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { commandReply } from './core-service.js'
+
+import TelegramBot from 'node-telegram-bot-api'
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 

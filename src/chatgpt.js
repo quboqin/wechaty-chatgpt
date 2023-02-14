@@ -55,7 +55,6 @@ export async function chatgptReplayImage(prompt) {
   } catch (e) {
     if (e.response) {
       console.error(e.response.statusText)
-      // focus on status == 429, Too Many Requests
       response = `🤒 ${e.response.statusText}`
     }
   }

@@ -3,9 +3,6 @@ import qrcodeTerminal from 'qrcode-terminal'
 import { command_dictionary } from './constraint.js'
 
 import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
-import { getFlagStudioToken, flagStudioReplayImage } from './flagstudio.js'
-
-await getFlagStudioToken()
 
 export async function generateQRCode(qrcode) {
   await qrcodeTerminal.generate(qrcode, { small: true })
@@ -35,31 +32,4 @@ export async function commandReply(room, contact, content, sendText, sendImage) 
     result = await chatgptReplayImage(prompt)
     await sendImage(target, null, result.imageUrl)
   }
-
-  if (content.startsWith('/f ')) {
-    const request = content.replace('/f ', '')
-    const messageArray = request.split(',')
-    prompt = messageArray[0]
-    const style = messageArray[1]
-    result = await flagStudioReplayImage(target, prompt, style)
-    await sendImage(target, result.base64String, null)
-  }
-
-  if (content.startsWith('/m ')) {
-    prompt = content.replace('/m ', '')
-    await sendMessageToDiscord(prompt)
-  }
-}
-
-// eslint-disable-next-line no-unused-vars
-async function sendMessageToDiscord(prompt) {
-  // const channel = await discordClient.channels.fetch(CHANNEL_ID)
-  // if (channel) {
-  //   channel.send(`/imagine prompt ${prompt}`)
-  // }
-  // const user = await discordClient.users.fetch(MID_JOURNEY_ID)
-  // console.log(`user = ${user}`)
-  // if (user) {
-  //   user.send(`/imagine ${prompt}`)
-  // }
 }

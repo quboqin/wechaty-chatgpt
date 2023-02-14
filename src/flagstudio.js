@@ -20,8 +20,6 @@ export async function getFlagStudioToken() {
       },
     })
   ).data.data.token
-
-  console.log(`flag_Studio_token = ${flag_Studio_token}`)
 }
 
 export async function flagStudioReplayImage(prompt, style) {
