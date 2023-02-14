@@ -9,7 +9,7 @@ fs.readFile('./commander.txt', 'utf-8', (err, data) => {
   commander = data
 })
 
-import { generateQRCode, commandReply } from './utils.js'
+import { generateQRCode, commandReply } from './core-service.js'
 import { chatgptReplyText } from './chatgpt.js'
 
 // eslint-disable-next-line no-unused-vars

@@ -3,7 +3,7 @@ const { Client, LocalAuth, MessageMedia } = WhatsApp
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { generateQRCode, commandReply } from './utils.js'
+import { generateQRCode, commandReply } from './core-service.js'
 
 let clientOptions = {}
 
