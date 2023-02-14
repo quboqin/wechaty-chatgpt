@@ -31,7 +31,8 @@ jobs:
         if [[ "$PROJECT_NAME" == "wechat" ]]
         then
           echo "HOST=`echo $WECHAT_HOST`" >> $GITHUB_ENV
-        elif [[ "$PROJECT_NAME" == "whatsapp" ]] 
+        elif [[ "$PROJECT_NAME" == "whatsapp" ]]
+        then 
           echo "HOST=`echo $WHATSAPP_HOST`" >> $GITHUB_ENV
         else 
           echo "HOST=`echo $TELEGRAM_HOST`" >> $GITHUB_ENV
