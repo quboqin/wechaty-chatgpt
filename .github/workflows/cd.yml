@@ -35,6 +35,7 @@ jobs:
         else 
           echo "HOST=`echo $TELEGRAM_HOST`" >> $GITHUB_ENV
         fi
+        echo "host=$HOST"
 
     - name: deploy using ssh
       uses: appleboy/ssh-action@master
