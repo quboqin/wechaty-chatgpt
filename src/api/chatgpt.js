@@ -13,15 +13,16 @@ const chatgpt = new ChatGPTAPI({
   },
 })
 
-let followUpId = null
-let messageOpt = {}
+let userIdMappingFollowUpId = {}
 
-export async function chatgptReplyText(prompt) {
+export async function chatgptReplyText(prompt, userId) {
   console.log(`request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
   let result
 
-  messageOpt = {}
+  let followUpId = userIdMappingFollowUpId[userId] || null
+
+  let messageOpt = {}
   if (followUpId) {
     messageOpt.parentMessageId = followUpId
   }
@@ -29,11 +30,12 @@ export async function chatgptReplyText(prompt) {
   result = await chatgpt.sendMessage(prompt, messageOpt)
   response = `${truncate(prompt)} \n ---${result.id}--- \n` + result.text
   followUpId = result.id
+  userIdMappingFollowUpId[userId] = followUpId
 
   return response
 }
 
-export function clearParentMessageId() {
-  followUpId = null
-  console.log(`followUpId is cleared`)
+export function clearParentMessageId(userId) {
+  userIdMappingFollowUpId[userId] = null
+  console.log(`${userId} followUpId is cleared`)
 }

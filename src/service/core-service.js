@@ -30,7 +30,7 @@ export async function commandReply(
 
   if (content.startsWith('/c ')) {
     prompt = content.replace('/c ', '')
-    result = await chatgptReplyText(prompt)
+    result = await chatgptReplyText(prompt, target)
     await sendText(target, result)
   }
 
@@ -41,6 +41,6 @@ export async function commandReply(
   }
 
   if (content.startsWith('/new')) {
-    clearParentMessageId()
+    clearParentMessageId(target)
   }
 }

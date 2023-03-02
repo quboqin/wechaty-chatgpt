@@ -66,7 +66,7 @@ wechaty
         if (groupContent) {
           content = groupContent.trim()
           if (!content.startsWith('/c')) {
-            let result = await chatgptReplyText(content)
+            let result = await chatgptReplyText(content, room)
             await sendText(room, result)
           }
         } else {
