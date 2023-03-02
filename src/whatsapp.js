@@ -4,7 +4,7 @@ dotenv({ path: `.env` })
 
 import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
 import { openaiReplayImage } from './api/openai.js'
-import { generateQRCode, commandReply } from './core-service.js'
+import { generateQRCode, commandReply } from './service/core-service.js'
 
 const { Client, LocalAuth, MessageMedia } = WhatsApp
 

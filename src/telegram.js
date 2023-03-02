@@ -3,7 +3,7 @@ dotenv({ path: `.env` })
 
 import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
 import { openaiReplayImage } from './api/openai.js'
-import { commandReply } from './core-service.js'
+import { commandReply } from './service/core-service.js'
 
 import TelegramBot from 'node-telegram-bot-api'
 

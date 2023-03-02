@@ -1,6 +1,6 @@
 import qrcodeTerminal from 'qrcode-terminal'
 
-import { command_dictionary } from './constraint.js'
+import { command_dictionary } from '../constraint.js'
 
 export async function generateQRCode(qrcode) {
   await qrcodeTerminal.generate(qrcode, { small: true })
