@@ -14,6 +14,14 @@ const chatgpt = new ChatGPTAPI({
 let followUpId = null
 let messageOpt = {}
 
+// return a fix length string end with '...'
+function truncate(str, length) {
+  if (str.length > length) {
+    return str.substring(0, length) + '...'
+  }
+  return str
+}
+
 export async function chatgptReplyText(prompt) {
   console.log(`request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
@@ -21,9 +29,11 @@ export async function chatgptReplyText(prompt) {
 
   if (followUpId) {
     messageOpt.parentMessageId = followUpId
+  } else {
+    messageOpt = {}
   }
   result = await chatgpt.sendMessage(prompt, messageOpt)
-  response = `${prompt} \n ------ \n` + result.text
+  response = `${truncate(prompt)} \n ---${result.id}--- \n` + result.text
   followUpId = result.id
 
   return response
@@ -31,4 +41,5 @@ export async function chatgptReplyText(prompt) {
 
 export function clearParentMessageId() {
   followUpId = null
+  console.log(`followUpId is cleared`)
 }
