@@ -3,7 +3,7 @@ import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
-const MAX_CHATGPT_TOKEN = 2048
+const MAX_CHATGPT_TOKEN = 4096
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
