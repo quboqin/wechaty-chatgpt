@@ -3,7 +3,7 @@ import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
 import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
-const MAX_CHATGPT_TOKEN = 2048
+const MAX_CHATGPT_TOKEN = 4000
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -21,7 +21,7 @@ export async function chatgptReplyText(prompt) {
 
   try {
     result = await openai.createCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'text-davinci-003',
       prompt: prompt,
       temperature: 0.6,
       max_tokens: MAX_CHATGPT_TOKEN,
