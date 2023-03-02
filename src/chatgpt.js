@@ -21,7 +21,7 @@ export async function chatgptReplyText(prompt) {
 
   try {
     result = await openai.createCompletion({
-      model: 'gpt-3.5-turbo-0301',
+      model: 'text-davinci-003',
       prompt: prompt,
       temperature: 0.6,
       max_tokens: MAX_CHATGPT_TOKEN,
