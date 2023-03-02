@@ -2,7 +2,7 @@ import axios from 'axios'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constraint.js'
 
 const instance = axios.create({
   baseURL: 'https://flagopen.baai.ac.cn/flagStudio',

@@ -2,6 +2,8 @@ import WhatsApp from 'whatsapp-web.js'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
+import { openaiReplayImage } from './api/openai.js'
 import { generateQRCode, commandReply } from './core-service.js'
 
 const { Client, LocalAuth, MessageMedia } = WhatsApp
@@ -27,7 +29,16 @@ client
   })
   .on('message', async (message) => {
     console.log(message.body)
-    await commandReply(null, message.from, message.body, sendText, sendImage)
+    await commandReply(
+      null,
+      message.from,
+      message.body,
+      chatgptReplyText,
+      clearParentMessageId,
+      openaiReplayImage,
+      sendText,
+      sendImage,
+    )
   })
 
 client.initialize()

@@ -3,8 +3,9 @@ import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 import * as fs from 'fs'
 
+import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
+import { openaiReplayImage } from './api/openai.js'
 import { generateQRCode, commandReply } from './core-service.js'
-import { chatgptReplyText } from './chatgpt.js'
 
 // eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
@@ -74,10 +75,28 @@ wechaty
         }
       }
       console.log(`room name: ${topic} contact: ${contact} content: ${content}`)
-      await commandReply(room, contact, content, sendText, sendImage)
+      await commandReply(
+        room,
+        contact,
+        content,
+        chatgptReplyText,
+        clearParentMessageId,
+        openaiReplayImage,
+        sendText,
+        sendImage,
+      )
     } else {
       console.log(`contact: ${contact} content: ${content}`)
-      await commandReply(null, contact, content, sendText, sendImage)
+      await commandReply(
+        null,
+        contact,
+        content,
+        chatgptReplyText,
+        clearParentMessageId,
+        openaiReplayImage,
+        sendText,
+        sendImage,
+      )
     }
   })
 

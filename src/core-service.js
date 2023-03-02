@@ -2,15 +2,22 @@ import qrcodeTerminal from 'qrcode-terminal'
 
 import { command_dictionary } from './constraint.js'
 
-import { chatgptReplyText, chatgptReplayImage } from './chatgpt.js'
-
 export async function generateQRCode(qrcode) {
   await qrcodeTerminal.generate(qrcode, { small: true })
   const qrcodeImageUrl = ['https://api.qrserver.com/v1/create-qr-code/?data=', encodeURIComponent(qrcode)].join('')
   console.log(qrcodeImageUrl)
 }
 
-export async function commandReply(room, contact, content, sendText, sendImage) {
+export async function commandReply(
+  room,
+  contact,
+  content,
+  chatgptReplyText,
+  clearParentMessageId,
+  openaiReplayImage,
+  sendText,
+  sendImage,
+) {
   const target = room || contact
   content = content.trim()
   let lowCaseContent = content.toLowerCase()
@@ -29,7 +36,11 @@ export async function commandReply(room, contact, content, sendText, sendImage) 
 
   if (content.startsWith('/i ')) {
     prompt = content.replace('/i ', '')
-    result = await chatgptReplayImage(prompt)
+    result = await openaiReplayImage(prompt)
     await sendImage(target, null, result.imageUrl)
+  }
+
+  if (content.startsWith('/new')) {
+    clearParentMessageId()
   }
 }

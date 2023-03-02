@@ -1,6 +1,8 @@
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
+import { openaiReplayImage } from './api/openai.js'
 import { commandReply } from './core-service.js'
 
 import TelegramBot from 'node-telegram-bot-api'
@@ -11,7 +13,16 @@ console.log('start telegram bot...')
 
 bot.on('message', async (message) => {
   console.log(message.text.toString())
-  await commandReply(null, message.chat.id, message.text.toString(), sendText, sendImage)
+  await commandReply(
+    null,
+    message.chat.id,
+    message.text.toString(),
+    chatgptReplyText,
+    clearParentMessageId,
+    openaiReplayImage,
+    sendText,
+    sendImage,
+  )
 })
 
 export async function sendText(target, message) {

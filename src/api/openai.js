@@ -2,7 +2,7 @@ import { Configuration, OpenAIApi } from 'openai'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { IMAGE_HEIGHT, IMAGE_WIDTH } from './constraint.js'
+import { IMAGE_HEIGHT, IMAGE_WIDTH } from '../constraint.js'
 const MAX_CHATGPT_TOKEN = 4000
 
 const configuration = new Configuration({
@@ -14,7 +14,7 @@ const openai = new OpenAIApi(configuration)
 // For most models, this is 2,048 tokens or about 1,500 words.
 // As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text.
 // Pricing is pay-as-you-go per 1,000 tokens, with $18 in free credit that can be used during your first 3 months. Learn more.
-export async function chatgptReplyText(prompt) {
+export async function openaiReplyText(prompt) {
   console.log(`request: ${prompt}`)
   let response = '🤒 error occurred, please try again later...'
   let result
@@ -38,7 +38,7 @@ export async function chatgptReplyText(prompt) {
   return response
 }
 
-export async function chatgptReplayImage(prompt) {
+export async function openaiReplayImage(prompt) {
   let response = '🤒 error occurred, please try again later...'
   let imageUrl
   let result
