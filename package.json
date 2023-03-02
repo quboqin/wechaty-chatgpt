@@ -8,6 +8,7 @@
     "wechat": "node src/wechat.js",
     "whatsapp": "node src/whatsapp.js",
     "telegram": "node src/telegram.js",
+    "build-docker": "docker build -t node-pm2 .",
     "lint": "eslint 'src/*.js' --quiet --fix"
   },
   "keywords": [
