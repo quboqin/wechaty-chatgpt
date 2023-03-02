@@ -1,4 +1,4 @@
-import { fetch } from 'unfetch'
+import fetch from 'unfetch'
 import { ChatGPTAPI } from 'chatgpt'
 
 import { config as dotenv } from 'dotenv'
