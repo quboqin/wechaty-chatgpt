@@ -16,7 +16,7 @@ const chatgpt = new ChatGPTAPI({
 let userFollowUpIdMapping = {}
 
 export async function chatgptReplyText(prompt, userId) {
-  console.log(`request: ${truncate(prompt)}`)
+  console.log(`request: ${truncate(prompt)} from ${userId}`)
   let response = '🤒 error occurred, please try again later...'
   let result
 
