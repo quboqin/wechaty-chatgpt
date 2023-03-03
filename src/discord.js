@@ -1,5 +1,4 @@
 import fs from 'fs'
-import fetch from 'node-fetch'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 

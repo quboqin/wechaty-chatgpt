@@ -3,6 +3,8 @@ import { ChatGPTAPI } from 'chatgpt'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
+import fetch from 'node-fetch'
+
 import { truncate } from '../utils/index.js'
 
 const chatgpt = new ChatGPTAPI({
@@ -12,6 +14,7 @@ const chatgpt = new ChatGPTAPI({
     top_p: 0.8,
   },
   debug: true,
+  fetch: fetch,
 })
 
 let userFollowUpIdMapping = {}
