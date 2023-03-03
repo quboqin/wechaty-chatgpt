@@ -7,7 +7,6 @@ import { chatgptReplyText, clearParentMessageId } from './api/chatgpt.js'
 import { openaiReplayImage } from './api/openai.js'
 import { generateQRCode, commandReply } from './service/core-service.js'
 
-// eslint-disable-next-line no-unused-vars
 // import { client as discordClient, CHANNEL_ID, MID_JOURNEY_ID } from './discord-bot.js'
 
 import { WechatyBuilder } from 'wechaty'
