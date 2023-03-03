@@ -3,7 +3,7 @@ import { ChatGPTAPI } from 'chatgpt'
 import { config as dotenv } from 'dotenv'
 dotenv({ path: `.env` })
 
-import { truncate } from '../utils'
+import { truncate } from '../utils/index.js'
 
 const chatgpt = new ChatGPTAPI({
   apiKey: process.env.OPENAI_API_KEY,
