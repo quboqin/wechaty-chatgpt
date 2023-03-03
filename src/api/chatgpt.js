@@ -11,6 +11,7 @@ const chatgpt = new ChatGPTAPI({
     temperature: 0.6,
     top_p: 0.8,
   },
+  debug: true,
 })
 
 let userFollowUpIdMapping = {}
@@ -22,7 +23,9 @@ export async function chatgptReplyText(prompt, userId) {
 
   let followUpId = userFollowUpIdMapping[userId] || null
 
-  let messageOpt = {}
+  let messageOpt = {
+    timeoutMs: 2 * 60 * 1000,
+  }
   if (followUpId) {
     messageOpt.parentMessageId = followUpId
   }
